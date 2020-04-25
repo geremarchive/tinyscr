@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+var ERR error = nil
 
 func Getch() (rune, error) {
 	state, err := terminal.MakeRaw(0)
@@ -16,12 +17,13 @@ func Getch() (rune, error) {
 		return ' ', err
 	}
 
-
 	defer func() {
-		if err := terminal.Restore(0, state); err != nil {
-			fmt.Println("Couldn't restore screen")
-		}
+		ERR = terminal.Restore(0, state)
 	}()
+
+	if ERR != nil {
+		return ' ', ERR
+	}
 
 	in := bufio.NewReader(os.Stdin)
 	r, _, err := in.ReadRune()
