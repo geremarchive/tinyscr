@@ -15,7 +15,7 @@ func Getch() (rune, error) {
 		return ' ', err
 	}
 
-	terminal.Restore(0, state)
+	defer terminal.Restore(0, state)
 
 	in := bufio.NewReader(os.Stdin)
 	r, _, err := in.ReadRune()
