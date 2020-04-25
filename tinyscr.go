@@ -16,11 +16,7 @@ func Getch() (rune, error) {
 		return ' ', err
 	}
 
-	defer err = func() error {
-		if err := terminal.Restore(0, state); err != nil {
-			return err
-		}
-	}
+	defer err := terminal.Restore(0, state)
 
 	if err != nil {
 		return ' ', err
