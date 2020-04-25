@@ -16,11 +16,12 @@ func Getch() (rune, error) {
 		return ' ', err
 	}
 
-	defer err := terminal.Restore(0, state)
 
-	if err != nil {
-		return ' ', err
-	}
+	defer func() {
+		if err := terminal.Restore(0, state); err != nil {
+			fmt.Println("Couldn't restore screen")
+		}
+	}()
 
 	in := bufio.NewReader(os.Stdin)
 	r, _, err := in.ReadRune()
