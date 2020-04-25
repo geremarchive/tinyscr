@@ -6,28 +6,25 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"log"
 )
 
-func Getch() rune {
+func Getch() (rune, error) {
 	state, err := terminal.MakeRaw(0)
+
 	if err != nil {
-		log.Fatalln("setting stdin to raw:", err)
+		return ' ', err
 	}
-	defer func() {
-		if err := terminal.Restore(0, state); err != nil {
-			log.Println("warning, failed to restore terminal:", err)
-		}
-	}()
+
+	terminal.Restore(0, state)
 
 	in := bufio.NewReader(os.Stdin)
 	r, _, err := in.ReadRune()
 
 	if err != nil {
-		log.Println("STDIN:", err)
+		return ' ', err
 	}
 
-	return r
+	return r, nil
 }
 
 func HideCursor() {
