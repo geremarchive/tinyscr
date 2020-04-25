@@ -8,31 +8,25 @@ import (
 	"os"
 )
 
-var ERR error = nil
-
-func Getch() (rune, error) {
+func Getch() rune {
 	state, err := terminal.MakeRaw(0)
-
 	if err != nil {
-		return ' ', err
+		log.Fatalln("setting stdin to raw:", err)
 	}
-
 	defer func() {
-		ERR = terminal.Restore(0, state)
+		if err := terminal.Restore(0, state); err != nil {
+			log.Println("warning, failed to restore terminal:", err)
+		}
 	}()
-
-	if ERR != nil {
-		return ' ', ERR
-	}
 
 	in := bufio.NewReader(os.Stdin)
 	r, _, err := in.ReadRune()
 
 	if err != nil {
-		return ' ', err
+		log.Println("STDIN:", err)
 	}
 
-	return r, nil
+	return r
 }
 
 func HideCursor() {
