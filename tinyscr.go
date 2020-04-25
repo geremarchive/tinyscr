@@ -11,19 +11,16 @@ import (
 
 func Getch() (rune, error) {
 	state, err := terminal.MakeRaw(0)
+
 	if err != nil {
 		return ' ', err
 	}
 
-	c := make(chan error)
-
-	defer func(c chan error) {
+	defer err = func() error {
 		if err := terminal.Restore(0, state); err != nil {
-			c <- err
+			return err
 		}
-	}(c)
-
-	err = <-c
+	}
 
 	if err != nil {
 		return ' ', err
