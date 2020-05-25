@@ -17,14 +17,13 @@ func Getch() (rune, error) {
 
 	defer terminal.Restore(0, state)
 
-	in := bufio.NewReader(os.Stdin)
-	r, _, err := in.ReadRune()
+	in, err := ioutil.ReadFile("/dev/stdin")
 
 	if err != nil {
 		return ' ', err
 	}
 
-	return r, nil
+	return rune(in[0]), nil
 }
 
 func HideCursor() {
