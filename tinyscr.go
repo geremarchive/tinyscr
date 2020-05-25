@@ -2,7 +2,7 @@ package tinyscr
 
 import (
 	"golang.org/x/crypto/ssh/terminal"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"fmt"
 )
@@ -16,13 +16,10 @@ func Getch() (rune, error) {
 
 	defer terminal.Restore(0, state)
 
-	in, err := ioutil.ReadFile("/dev/stdin")
+	var b []byte = make([]byte, 1)
+	os.Stdin.Read(b)
 
-	if err != nil {
-		return ' ', err
-	}
-
-	return rune(in[0]), nil
+	return rune(b), nil
 }
 
 func HideCursor() {
