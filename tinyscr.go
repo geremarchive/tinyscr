@@ -2,10 +2,9 @@ package tinyscr
 
 import (
 	"golang.org/x/crypto/ssh/terminal"
+	"io/ioutil"
 	"strconv"
-	"bufio"
 	"fmt"
-	"os"
 )
 
 func Getch() (rune, error) {
