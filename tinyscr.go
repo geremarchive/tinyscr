@@ -19,7 +19,7 @@ func Getch() (rune, error) {
 	var b []byte = make([]byte, 1)
 	os.Stdin.Read(b)
 
-	return rune(b), nil
+	return rune(b[0]), nil
 }
 
 func HideCursor() {
