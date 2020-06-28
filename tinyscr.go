@@ -4,6 +4,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strconv"
+	"bufio"
 	"fmt"
 )
 
